@@ -1,4 +1,4 @@
-import { axiosAuth } from './axiosInstance';
+import { axiosAuth } from './AxiosInstance';
  
 export const authApi = {
   register: async ({ email, password, firstName, lastName }) => {
