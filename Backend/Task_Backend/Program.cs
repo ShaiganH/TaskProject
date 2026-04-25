@@ -1,6 +1,9 @@
+using Project.Data;
 using Project.Hubs;
 using Project.Service;
 using Project.Validation;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
