@@ -13,7 +13,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 // The main instance used for ALL authenticated API calls
 const axiosInstance = axios.create({
-  baseURL: `${BASE_URL}/api`,
+  baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
   // CRITICAL: send cookies (the HttpOnly refresh token) with every request
   withCredentials: true,
