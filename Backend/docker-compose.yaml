@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Veriton52002d!"
+    ports:
+      - "1433:1433"

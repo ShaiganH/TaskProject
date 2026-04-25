@@ -1,0 +1,27 @@
+# --- Frontend (React) ---
+Frontend/node_modules/
+Frontend/build/
+Frontend/dist/
+Frontend/.env.local
+Frontend/.env.development.local
+Frontend/.env.test.local
+Frontend/.env.production.local
+Frontend/npm-debug.log*
+
+# --- Backend (.NET) ---
+**/bin/
+**/obj/
+Backend/Task_Backend/.vs/
+Backend/Task_Backend/*.user
+Backend/Task_Backend/*.userosscache
+Backend/Task_Backend/*.suo
+Backend/Task_Backend/appsettings.Development.json
+
+# --- Docker ---
+# Don't ignore docker-compose.yaml, but ignore local env files
+.env
+.env.local
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db
