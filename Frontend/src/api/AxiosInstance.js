@@ -9,7 +9,7 @@
 
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5210';
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 // The main instance used for ALL authenticated API calls
 const axiosInstance = axios.create({
