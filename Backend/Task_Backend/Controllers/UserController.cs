@@ -11,6 +11,7 @@ namespace Project.Controllers;
 
 [ApiController]
 [Authorize]
+[Route("api/[controller]")]
 public class UserController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
