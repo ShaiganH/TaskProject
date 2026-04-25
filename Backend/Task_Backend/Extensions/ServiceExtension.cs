@@ -70,7 +70,7 @@ public static class ServiceExtension
         {
             options.AddPolicy("Frontend", policy =>
             {
-                policy.WithOrigins(configuration["Frontend"] ?? "http://localhost:5173")
+                policy.WithOrigins(configuration["Frontend"] ?? "http://http://43.205.113.144")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
