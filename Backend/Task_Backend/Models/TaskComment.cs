@@ -1,4 +1,6 @@
 // TaskComment.cs
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Project.Model;
 public class TaskComment
 {
@@ -10,5 +12,6 @@ public class TaskComment
     public string UserId { get; set; } = string.Empty;
 
     public Tasks Task { get; set; } = null!;
+    [ForeignKey("UserId")]
     public User User { get; set; } = null!;
 }
