@@ -104,7 +104,7 @@ public class AuthController : ControllerBase
             Secure = true, //Https only
             SameSite = SameSiteMode.Strict, // CSRF Protection
             Expires = DateTime.UtcNow.AddDays(7),
-            Path = "/auth" // Cookie only sent to /auth/* routes
+            Path = "/api/auth" // Cookie only sent to /auth/* routes
                         // NOT sent to /api/* — minimizes exposure
         };
         Response.Cookies.Append(RefreshTokenCookieName,token,options);
@@ -117,7 +117,7 @@ public class AuthController : ControllerBase
             HttpOnly = true, // JS cannot read this — XSS protection
             Secure = true, //Https only
             SameSite = SameSiteMode.Strict, // CSRF Protection
-            Path = "/auth" // Cookie only sent to /auth/* routes
+            Path = "/api/auth" // Cookie only sent to /auth/* routes
                         // NOT sent to /api/* — minimizes exposure
         });
     }
