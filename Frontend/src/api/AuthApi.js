@@ -8,6 +8,7 @@ export const authApi = {
       firstName,
       lastName,
     });
+    console.log('register response:', data);  // ← add this
     data.user.role = getRoleFromToken(data.accessToken);
     return data; // { accessToken, accessTokenExpiry, user }
   },
