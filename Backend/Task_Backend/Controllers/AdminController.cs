@@ -76,6 +76,7 @@ public class AdminController : ControllerBase
                 role        = roleNames.FirstOrDefault() ?? "User",
                 isBlocked   = u.LockoutEnd != null && u.LockoutEnd > DateTimeOffset.UtcNow,
                 createdAt   = u.CreatedAt,
+                profilePictureUrl = u.ProfilePictureUrl,
                 taskStats   = new
                 {
                     total      = stats?.Total      ?? 0,
