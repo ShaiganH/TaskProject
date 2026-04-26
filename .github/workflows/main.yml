@@ -33,3 +33,15 @@ jobs:
         context: ./Frontend
         push: true
         tags: shaigan54/taskapp-frontend:latest
+
+    - name: Deploy on EC2
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.EC2_KEY }}
+        script: |
+          docker compose down
+          docker compose pull
+          docker compose up -d
+        
