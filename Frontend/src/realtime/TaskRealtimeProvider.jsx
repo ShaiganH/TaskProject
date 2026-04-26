@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useTask } from '../context/TaskContext';
 import { useAdmin } from '../context/AdminContext';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5210';
+const BASE_URL = "http://43.205.113.144";
 
 const RealtimeContext = createContext(null);
 
