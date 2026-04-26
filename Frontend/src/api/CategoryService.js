@@ -1,4 +1,4 @@
-import axiosInstance from './AxiosInstance';
+import axiosInstance from './axiosInstance';
 
 export const getCategories = () =>
   axiosInstance.get('/api/categories');

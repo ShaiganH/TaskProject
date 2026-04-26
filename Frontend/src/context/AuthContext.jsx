@@ -2,7 +2,7 @@ import {
   createContext, useContext, useEffect, useRef, useState, useCallback,
 } from 'react';
 import { authApi } from '../api/AuthApi';
-import { setAccessToken, clearAccessToken, getAccessToken } from '../api/AxiosInstance';
+import { setAccessToken, clearAccessToken, getAccessToken } from '../api/axiosInstance';
 import { getProfile } from '../api/UserService';
 
 const AuthContext = createContext(null);

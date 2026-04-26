@@ -1,4 +1,4 @@
-import axiosInstance from './AxiosInstance';
+import axiosInstance from './axiosInstance';
 
 export const createTask = (taskData) =>
   axiosInstance.post('/api/tasks', taskData);

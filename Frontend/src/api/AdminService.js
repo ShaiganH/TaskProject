@@ -1,4 +1,4 @@
-import axiosInstance from './AxiosInstance';
+import axiosInstance from './axiosInstance';
 
 // ── User management ────────────────────────────────────────────────────────────
 export const adminGetUsers       = ()          => axiosInstance.get('/api/admin/users');
