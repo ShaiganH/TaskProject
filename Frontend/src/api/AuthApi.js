@@ -2,7 +2,7 @@ import { axiosAuth } from './axiosInstance';
  
 export const authApi = {
   register: async ({ email, password, firstName, lastName }) => {
-    const { data } = await axiosAuth.post('/auth/register', {
+    const { data } = await axiosAuth.post('/api/auth/register', {
       email,
       password,
       firstName,
@@ -13,7 +13,7 @@ export const authApi = {
   },
  
   login: async ({ email, password }) => {
-    const { data } = await axiosAuth.post('/auth/login', { email, password });
+    const { data } = await axiosAuth.post('/api/auth/login', { email, password });
     // Response body has accessToken
     // Response cookie (HttpOnly) has refreshToken — browser handles automatically
     data.user.role = getRoleFromToken(data.accessToken);
@@ -22,18 +22,18 @@ export const authApi = {
  
   refresh: async () => {
     // No body needed — HttpOnly cookie is sent automatically by the browser
-    const { data } = await axiosAuth.post('/auth/refresh');
+    const { data } = await axiosAuth.post('/api/auth/refresh');
     data.user.role = getRoleFromToken(data.accessToken);
     return data;
   },
  
   logout: async () => {
-    await axiosAuth.post('/auth/logout');
+    await axiosAuth.post('/api/auth/logout');
     // Server clears the HttpOnly cookie
   },
  
   logoutAllDevices: async () => {
-    await axiosAuth.post('/auth/logout-all');
+    await axiosAuth.post('/api/auth/logout-all');
   },
 };
 

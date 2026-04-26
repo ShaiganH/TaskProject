@@ -9,22 +9,18 @@
 
 import axios from 'axios';
 
-const BASE_URL = "http://43.205.113.144/api";
+const BASE_URL = "http://43.205.113.144";
 
-// The main instance used for ALL authenticated API calls
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
-  // CRITICAL: send cookies (the HttpOnly refresh token) with every request
   withCredentials: true,
 });
 
-// Separate instance for auth calls — avoids interceptor loops
-// (we don't want the refresh call itself to trigger another refresh)
 export const axiosAuth = axios.create({
   baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
-  withCredentials: true, // needed so /auth/refresh receives the cookie
+  withCredentials: true,
 });
 
 // ── Request Interceptor ────────────────────────────────────────────────────
