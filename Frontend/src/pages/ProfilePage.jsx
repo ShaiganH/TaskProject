@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef,useEffect } from "react";
 import { Camera, Save, Key, Eye, EyeOff, CheckCircle2, AlertCircle } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useTask } from "../context/TaskContext";
@@ -120,6 +120,15 @@ export default function ProfilePage() {
   // ── Avatar upload ──────────────────────────────────────────────────────────
   const [avatarUploading, setAvatarUploading] = useState(false);
   const [avatarPreview,   setAvatarPreview]   = useState(user?.profilePictureUrl ?? null);
+
+useEffect(() => {
+  setBio(user?.bio ?? "");
+}, [user?.bio]);  // re-syncs whenever user.bio changes in context
+
+useEffect(() => {
+  setAvatarPreview(user?.profilePictureUrl ?? null);
+}, [user?.profilePictureUrl]);  // re-syncs whenever profilePictureUrl changes
+  
 
   // ── Save bio ───────────────────────────────────────────────────────────────
   const handleSaveBio = async () => {

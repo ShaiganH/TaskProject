@@ -1,17 +1,26 @@
 import {
-  createContext, useContext, useEffect, useRef, useState, useCallback,
-} from 'react';
-import { authApi } from '../api/AuthApi';
-import { setAccessToken, clearAccessToken, getAccessToken } from '../api/axiosInstance';
-import { getProfile } from '../api/UserService';
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
+import { authApi } from "../api/AuthApi";
+import {
+  setAccessToken,
+  clearAccessToken,
+  getAccessToken,
+} from "../api/axiosInstance";
+import { getProfile } from "../api/UserService";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user,    setUser]    = useState(null);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   // Expose the raw token so SignalR can use it for its own HTTP handshake
-  const [token,   setToken]   = useState(null);
+  const [token, setToken] = useState(null);
 
   const refreshCalledRef = useRef(false);
 
@@ -23,8 +32,16 @@ export function AuthProvider({ children }) {
       try {
         const data = await authApi.refresh();
         setAccessToken(data.accessToken);
-        setToken(data.accessToken);        // ← expose token for SignalR
+        setToken(data.accessToken); // ← expose token for SignalR
         setUser(data.user);
+
+        // ← fetch full profile immediately after session restore
+        try {
+          const res = await getProfile();
+          setUser((prev) => (prev ? { ...prev, ...res.data } : res.data));
+        } catch {
+          // non-critical — basic user info still available from token
+        }
       } catch {
         clearAccessToken();
         setToken(null);
@@ -42,6 +59,14 @@ export function AuthProvider({ children }) {
     setAccessToken(data.accessToken);
     setToken(data.accessToken);
     setUser(data.user);
+
+    // fetch full profile
+    try {
+      const res = await getProfile();
+      console.log('Profile response after login:', res.data);  // ← add this
+      setUser((prev) => ({ ...prev, ...res.data }));
+    } catch {}
+
     return data.user;
   }, []);
 
@@ -50,17 +75,35 @@ export function AuthProvider({ children }) {
     setAccessToken(data.accessToken);
     setToken(data.accessToken);
     setUser(data.user);
+
+    // fetch full profile
+    try {
+      const res = await getProfile();
+      setUser((prev) => ({ ...prev, ...res.data }));
+    } catch {}
+
     return data.user;
   }, []);
 
   const logout = useCallback(async () => {
-    try { await authApi.logout(); } catch { }
-    finally { clearAccessToken(); setToken(null); setUser(null); }
+    try {
+      await authApi.logout();
+    } catch {
+    } finally {
+      clearAccessToken();
+      setToken(null);
+      setUser(null);
+    }
   }, []);
 
   const logoutAllDevices = useCallback(async () => {
-    try { await authApi.logoutAllDevices(); }
-    finally { clearAccessToken(); setToken(null); setUser(null); }
+    try {
+      await authApi.logoutAllDevices();
+    } finally {
+      clearAccessToken();
+      setToken(null);
+      setUser(null);
+    }
   }, []);
 
   // Re-fetch the current user's profile from the server and merge into user state.
@@ -69,17 +112,26 @@ export function AuthProvider({ children }) {
     try {
       const res = await getProfile();
       // Merge — keep role/id from existing user, update profile fields from server
-      setUser((prev) => prev ? { ...prev, ...res.data } : res.data);
+      setUser((prev) => (prev ? { ...prev, ...res.data } : res.data));
     } catch {
       // silently ignore — not critical
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{
-      user, loading, token, isAuthenticated: !!user,
-      login, registerUser, logout, logoutAllDevices, refreshUser,
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        token,
+        isAuthenticated: !!user,
+        login,
+        registerUser,
+        logout,
+        logoutAllDevices,
+        refreshUser,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -87,6 +139,6 @@ export function AuthProvider({ children }) {
 
 export const useAuth = () => {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used inside <AuthProvider>');
+  if (!ctx) throw new Error("useAuth must be used inside <AuthProvider>");
   return ctx;
 };
