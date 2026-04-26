@@ -23,8 +23,9 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] Registerrequest request)
     {
-        var result = await _authService.RegisterAsync(request);
-        return Ok(result);
+        var (response, rawRefreshToken) = await _authService.RegisterAsync(request);
+        SetRefreshTokenCookie(rawRefreshToken);
+        return Ok(response); // { accessToken, accessTokenExpiry, user }
 
     }
 
