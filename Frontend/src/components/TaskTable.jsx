@@ -48,10 +48,11 @@ export default function TaskTable({
   }
 
   return (
-    
-      <div className="relative">
-        <div className="flex-1 min-w-0 card overflow-hidden">
-          <table className="data-table w-full" style={{ tableLayout: "fixed" }}>
+    <div className="relative">
+      {/* Desktop table */}
+      <div className="hidden sm:block flex-1 min-w-0 card overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="data-table w-full" style={{ tableLayout: "fixed", minWidth: 520 }}>
             <thead>
               <tr>
                 <th style={{ width: "36%" }}>Task</th>
@@ -65,9 +66,6 @@ export default function TaskTable({
             <tbody>
               {tasks.map((task) => {
                 const cat = categories.find((c) => c.id === task.categoryId);
-                const creator = allUsers.find(
-                  (u) => u.id === task.createdByUserId,
-                );
                 const due = dueDateLabel(task.dueDate);
                 const overdue = isOverdue(task.dueDate, task.status);
 
@@ -75,7 +73,6 @@ export default function TaskTable({
                   <tr
                     key={task.id}
                     onClick={() => onRowClick?.(task)}
-                    
                   >
                     <td className="font-medium text-gray-800 truncate">
                       {task.title}
@@ -141,5 +138,51 @@ export default function TaskTable({
           </table>
         </div>
       </div>
+
+      {/* Mobile card list */}
+      <div className="sm:hidden space-y-2">
+        {tasks.map((task) => {
+          const cat = categories.find((c) => c.id === task.categoryId);
+          const due = dueDateLabel(task.dueDate);
+          const overdue = isOverdue(task.dueDate, task.status);
+
+          return (
+            <div
+              key={task.id}
+              onClick={() => onRowClick?.(task)}
+              className="card p-3 cursor-pointer hover:bg-gray-50 active:bg-gray-100 transition-colors"
+            >
+              <div className="flex items-start justify-between gap-2 mb-2">
+                <p className="text-sm font-medium text-gray-800 flex-1 min-w-0 line-clamp-2">
+                  {task.title}
+                </p>
+                {due && task.status !== "Completed" && task.status !== "Cancelled" && (
+                  <span className={`text-xs font-medium flex-shrink-0 ${overdue ? "text-red-500" : "text-gray-400"}`}>
+                    {due}
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <Badge className={getPriorityClass(task.priority)}>
+                  {task.priority}
+                </Badge>
+                <div className="flex items-center gap-1">
+                  <StatusDot status={task.status} />
+                  <span className="text-[10px] text-gray-500">{statusLabel(task.status)}</span>
+                </div>
+                {cat && (
+                  <span
+                    className="badge text-[10px] px-1.5 py-0.5"
+                    style={{ background: cat.color, color: cat.textColor }}
+                  >
+                    {cat.name}
+                  </span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }

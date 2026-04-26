@@ -18,6 +18,7 @@ builder.Services.AddScoped<IAuditLogService, AuditLogService>();
 builder.Services.AddScoped<ITaskCsvService, TaskCsvService>();
 builder.Services.AddScoped<ITaskPermissionService,TaskPermissionService>();
 builder.Services.AddScoped<ITaskQueryService, TaskQueryService>();
+builder.Services.AddSingleton<IS3Service, S3Service>();
 builder.Services.AddScoped<IAuditWriter, AuditWriter>();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJwt(builder.Configuration);

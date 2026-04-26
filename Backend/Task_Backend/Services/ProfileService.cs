@@ -15,6 +15,8 @@ public class ProfileService : IProfileService
     private readonly ApplicationDbContext _db;
     private readonly IWebHostEnvironment  _env;
 
+    private readonly IS3Service _s3Service;  
+
     // Maximum allowed profile picture size in bytes (2 MB)
     private const long MaxPictureSizeBytes = 2 * 1024 * 1024;
 
@@ -25,11 +27,13 @@ public class ProfileService : IProfileService
     public ProfileService(
         UserManager<User>    userManager,
         ApplicationDbContext db,
-        IWebHostEnvironment  env)
+        IWebHostEnvironment  env,
+        IS3Service           s3Service)
     {
         _userManager = userManager;
         _db          = db;
         _env         = env;
+        _s3Service   = s3Service;
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -70,44 +74,31 @@ public class ProfileService : IProfileService
     /// the public URL path. In production swap this with an S3/Azure Blob upload.
     /// </summary>
     public async Task<string> UploadProfilePictureAsync(string userId, IFormFile file)
-    {
-        // ── Validate ──────────────────────────────────────────────────────────
-        if (file.Length == 0)
-            throw new InvalidArgumentException("File is empty");
+{
+    // Validate (keep your existing validation)
+    if (file.Length == 0)
+        throw new InvalidArgumentException("File is empty");
+    if (file.Length > MaxPictureSizeBytes)
+        throw new InvalidArgumentException("File exceeds the 2 MB limit");
+    if (!AllowedMimeTypes.Contains(file.ContentType.ToLower()))
+        throw new InvalidArgumentException("File type not allowed");
 
-        if (file.Length > MaxPictureSizeBytes)
-            throw new InvalidArgumentException("File exceeds the 2 MB limit");
+    var user = await GetUserOrThrowAsync(userId);
 
-        if (!AllowedMimeTypes.Contains(file.ContentType.ToLower()))
-            throw new InvalidArgumentException(
-                $"File type '{file.ContentType}' is not allowed. " +
-                "Permitted types: JPEG, PNG, WebP, GIF");
+    // Delete old picture from S3 if exists
+    if (!string.IsNullOrEmpty(user.ProfilePictureUrl))
+        await _s3Service.DeleteFileAsync(user.ProfilePictureUrl);
 
-        // ── Build storage path ────────────────────────────────────────────────
-        var ext         = Path.GetExtension(file.FileName).ToLowerInvariant();
-        var fileName    = $"{userId}{ext}";
-        var folder      = Path.Combine(_env.WebRootPath, "profile-pictures");
+    // Upload new picture to S3
+    var url = await _s3Service.UploadFileAsync(file, userId);
 
-        Directory.CreateDirectory(folder);   // ensure folder exists
+    // Save URL to DB
+    user.ProfilePictureUrl = url;
+    user.UpdatedAt         = DateTime.UtcNow;
+    await _userManager.UpdateAsync(user);
 
-        var fullPath = Path.Combine(folder, fileName);
-
-        // ── Write to disk ─────────────────────────────────────────────────────
-        await using var stream = File.Create(fullPath);
-        await file.CopyToAsync(stream);
-
-        // ── Persist URL on user ───────────────────────────────────────────────
-        var relativePath = $"/profile-pictures/{fileName}";
-
-        var user = await GetUserOrThrowAsync(userId);
-        user.ProfilePictureUrl = relativePath;
-        user.UpdatedAt         = DateTime.UtcNow;
-
-        await _userManager.UpdateAsync(user);
-
-        return relativePath;
-    }
-
+    return url;
+}
     // ─────────────────────────────────────────────────────────────────────────
     // CHANGE PASSWORD
     // ─────────────────────────────────────────────────────────────────────────

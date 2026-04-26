@@ -116,7 +116,7 @@ useEffect(() => {
 
   return (
     <div className="flex flex-col h-full min-h-0">
-      <div className="flex items-start justify-between mb-6 flex-shrink-0">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-5 gap-3 flex-shrink-0">
         <div>
           <h1 className="text-xl font-semibold text-gray-900">My tasks</h1>
           <p className="text-sm text-gray-400 mt-0.5">
@@ -146,7 +146,7 @@ useEffect(() => {
       </div>
 
       {/* Search + filters */}
-      <div className="flex gap-2 mb-6 flex-wrap flex-shrink-0">
+      <div className="flex gap-2 mb-4 flex-wrap flex-shrink-0">
         <div className="relative flex-1 min-w-[200px] max-w-xs">
           <Search
             size={14}

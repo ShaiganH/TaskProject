@@ -57,7 +57,7 @@ export default function LoginPage() {
         </div>
         <div>
           <blockquote className="text-2xl font-light text-white/80 leading-relaxed mb-8">
-            "Clarity in tasks, clarity in progress. TaskFlow keeps the whole
+            "Clarity in tasks, clarity in progress. Pinnacle keeps the whole
             team aligned without the noise."
           </blockquote>
           <div className="flex items-center gap-3">

@@ -92,7 +92,7 @@ const dueToday = myTasks.filter(t =>
 
   return (
     <div className="flex flex-col h-full min-h-0">
-      <div className="flex items-start justify-between mb-6 flex-shrink-0">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-5 gap-3 flex-shrink-0">
         <div>
           <h1 className="text-xl font-semibold text-gray-900">
             {greeting()}, {user?.firstName ?? user?.name?.split(' ')[0] ?? 'there'}
@@ -107,7 +107,7 @@ const dueToday = myTasks.filter(t =>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-5 gap-4 mb-6 flex-shrink-0">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6 flex-shrink-0">
         <StatCard label="Total tasks"  value={pagination.totalCount} sub="on dashboard"    icon={CheckSquare}   iconBg="bg-blue-50" onClick={() => handleFilterChange(null)} active={status === null} />
         <StatCard label="In progress" onClick={() => handleFilterChange('InProgress')} active={status === 'InProgress'}  value={inProg}     sub="active now"     valueColor="text-brand-600" icon={TrendingUp}  iconBg="bg-brand-50" />
         <StatCard label="Due today" onClick={() => handleFilterChange('DueToday')} active={status === 'DueToday'}    value={dueToday}   sub="needs attention" valueColor={dueToday > 0 ? 'text-red-500' : 'text-gray-900'} icon={AlertTriangle} iconBg="bg-red-50" />
@@ -125,11 +125,11 @@ const dueToday = myTasks.filter(t =>
       </div>
 
       {/* Filter pills */}
-      <div className="flex items-center justify-between mb-3 flex-shrink-0">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2 flex-shrink-0">
         <h2 className="text-sm font-semibold text-gray-700">
           Tasks <span className="text-gray-400 font-normal">({pagination.totalCount})</span>
         </h2>
-        <div className="flex gap-1.5">
+        <div className="flex gap-1.5 flex-wrap">
           {STATUS_FILTERS.map(f => (
             <button key={f.label}
               onClick={() => handleFilterChange(f.value)}

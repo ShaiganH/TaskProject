@@ -383,7 +383,7 @@ export default function AdminPage() {
       <div className="flex-shrink-0">
 
         {/* Header row */}
-        <div className="flex items-center justify-between mb-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5 gap-3">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 bg-red-50 rounded-xl flex items-center justify-center">
               <Shield size={18} className="text-red-500" />
@@ -401,7 +401,7 @@ export default function AdminPage() {
         </div>
 
         {/* Stat cards — always visible regardless of tab */}
-        <div className="grid grid-cols-4 gap-4 mb-5">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
           <StatCard label="Total users"  value={stats.totalUsers}     sub="registered"       icon={Users}         iconBg="bg-blue-50"  />
           <StatCard label="Total tasks"  value={stats.totalTasks}     sub="across all users" icon={CheckSquare}   iconBg="bg-brand-50" />
           <StatCard label="Completed"    value={stats.completedTasks} sub="all time"         icon={Check}
@@ -412,7 +412,7 @@ export default function AdminPage() {
         </div>
 
         {/* Tab bar */}
-        <div className="flex gap-0.5 border-b border-gray-100">
+        <div className="flex gap-0.5 border-b border-gray-100 overflow-x-auto">
           {TABS.map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               className={`flex items-center gap-1.5 px-4 py-2.5 text-sm border-b-2 -mb-px transition-all ${

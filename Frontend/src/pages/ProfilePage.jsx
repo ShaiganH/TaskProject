@@ -199,7 +199,7 @@ useEffect(() => {
      * Right col = two stacked forms, each taking ~50% of height.
      * No scrolling required.
      */
-    <div className="page-enter h-full flex flex-col gap-4 min-h-0">
+    <div className="page-enter h-full flex flex-col gap-4 min-h-0 overflow-y-auto lg:overflow-hidden">
 
       {/* Page title — minimal, one line */}
       <div className="flex-shrink-0">
@@ -208,10 +208,10 @@ useEffect(() => {
       </div>
 
       {/* Main 2-col grid — fills remaining height */}
-      <div className="flex-1 grid grid-cols-[300px_1fr] gap-4 min-h-0">
+      <div className="lg:flex-1 grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4 lg:min-h-0">
 
         {/* ── LEFT: Identity card ───────────────────────────────────────── */}
-        <div className="flex flex-col gap-4 min-h-0">
+        <div className="flex flex-col gap-4 lg:min-h-0">
 
           {/* Avatar + name hero */}
           <div className="card p-5 flex flex-col items-center text-center gap-3">
@@ -283,7 +283,7 @@ useEffect(() => {
         </div>
 
         {/* ── RIGHT: Two stacked form cards ────────────────────────────── */}
-        <div className="flex flex-col gap-4 min-h-0">
+        <div className="flex flex-col gap-4 lg:min-h-0">
 
           {/* Personal info + bio */}
           <div className="card p-5">

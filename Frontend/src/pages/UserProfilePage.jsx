@@ -81,7 +81,7 @@ export default function UserProfilePage() {
 
       {/* Profile card */}
       <div className="card p-6 mb-4">
-        <div className="flex items-start gap-5">
+        <div className="flex flex-col sm:flex-row sm:items-start gap-5">
           {/* Avatar */}
           {profile.profilePictureUrl ? (
             <img
@@ -133,7 +133,7 @@ export default function UserProfilePage() {
         <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-4">
           Task statistics
         </p>
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <StatPill label="Total assigned"  value={profile.taskStats?.total      ?? 0} />
           <StatPill label="In progress"     value={profile.taskStats?.inProgress ?? 0} color="text-blue-600" />
           <StatPill label="Completed"       value={profile.taskStats?.completed  ?? 0} color="text-green-600" />

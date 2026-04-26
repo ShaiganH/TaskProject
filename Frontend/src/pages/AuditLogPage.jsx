@@ -66,7 +66,7 @@ export default function AuditLogPage() {
 
   return (
     <div className="page-enter">
-      <div className="flex items-start justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-5 gap-3">
         <div>
           <h1 className="text-xl font-semibold text-gray-900">Audit log</h1>
           <p className="text-sm text-gray-400 mt-0.5">
@@ -142,7 +142,7 @@ export default function AuditLogPage() {
       ) : (
         <div className="card h-[calc(100vh-220px)] flex flex-col overflow-hidden">
           <div className="flex-1 overflow-y-auto">
-          <table className="data-table w-full" style={{ tableLayout: "fixed" }}>
+          <div className="overflow-x-auto"><table className="data-table w-full" style={{ tableLayout: "fixed", minWidth: 560 }}>
             <thead className="sticky top-0 bg-white z-10">
               <tr>
                 <th style={{ width: "16%" }}>Timestamp</th>
@@ -184,7 +184,7 @@ export default function AuditLogPage() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
           </div>
 
           {/* Pagination */}

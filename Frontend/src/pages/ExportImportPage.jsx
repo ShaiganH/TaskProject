@@ -133,7 +133,7 @@ export default function ExportImportPage() {
         <p className="text-sm text-gray-400 mt-0.5">Back up your tasks or bring in data from another source</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Export */}
         <div className="card p-6">
           <div className="flex items-center gap-3 mb-4">
@@ -197,7 +197,7 @@ export default function ExportImportPage() {
 
           <div className="flex gap-2">
             <button className="btn-secondary flex-1 justify-center text-xs"
-              onClick={() => downloadFile(CSV_TEMPLATE, 'taskflow-template.csv', 'text/csv')}>
+              onClick={() => downloadFile(CSV_TEMPLATE, 'Docket-template.csv', 'text/csv')}>
               <Download size={13} /> Download template
             </button>
             {preview && preview.some(r => r.valid) && (

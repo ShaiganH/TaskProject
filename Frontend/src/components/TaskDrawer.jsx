@@ -13,7 +13,7 @@ export default function TaskDrawer({ task, onClose, onRefresh }) {
     <AnimatePresence>
       {task && (
         <>
-          {/* Dim overlay — starts after sidebar width */}
+          {/* Dim overlay */}
           <motion.div
             key="backdrop"
             initial={{ opacity: 0 }}
@@ -24,14 +24,14 @@ export default function TaskDrawer({ task, onClose, onRefresh }) {
             className="fixed inset-0 bg-black z-40"
           />
 
-          {/* Drawer panel */}
+          {/* Drawer panel — full-width on mobile, 30% on desktop */}
           <motion.div
             key="drawer"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', stiffness: 340, damping: 34 }}
-            className="fixed top-0 right-0 bottom-0 z-50 w-[30%]"
+            className="fixed top-0 right-0 bottom-0 z-50 w-full sm:w-[85%] md:w-[60%] lg:w-[40%] xl:w-[30%]"
           >
             <TaskDetailPanel task={task} onClose={onClose} onRefresh={onRefresh} />
           </motion.div>

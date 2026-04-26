@@ -11,15 +11,15 @@ export default function AppLayout() {
       <Sidebar />
 
       <main className="flex-1 overflow-hidden flex flex-col">
-        <div className="p-6 h-full flex flex-col min-h-0 max-w-screen-xl mx-auto w-full">
-          
-          {/* 🔥 Pass control down */}
-          <Outlet context={{ openTask: setSelectedTask }} />
+        {/* Spacer for mobile top bar */}
+        <div className="lg:hidden h-14 flex-shrink-0" />
 
+        <div className="p-4 lg:p-6 h-full flex flex-col min-h-0 max-w-screen-xl mx-auto w-full">
+          <Outlet context={{ openTask: setSelectedTask }} />
         </div>
       </main>
 
-      {/* ✅ ONLY ONE DRAWER */}
+      {/* Task drawer */}
       <TaskDrawer
         task={selectedTask}
         onClose={() => setSelectedTask(null)}

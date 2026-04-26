@@ -47,16 +47,19 @@ export function Modal({ open, onClose, title, children, footer, size = 'md' }) {
   const widths = { sm: 'max-w-sm', md: 'max-w-lg', lg: 'max-w-2xl', xl: 'max-w-3xl' }
   return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className={`modal-box w-full ${widths[size]} page-enter`}>
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+      <div className={`modal-box w-full ${widths[size]} page-enter flex flex-col`}>
+        {/* Sticky header */}
+        <div className="flex-shrink-0 flex items-center justify-between px-5 py-4 border-b border-gray-100">
           <h2 className="text-base font-semibold text-gray-800">{title}</h2>
           <button onClick={onClose} className="btn-ghost p-1.5 rounded-lg">
             <X size={16} />
           </button>
         </div>
-        <div className="px-5 py-5">{children}</div>
+        {/* Scrollable body */}
+        <div className="flex-1 overflow-y-auto px-5 py-5">{children}</div>
+        {/* Sticky footer */}
         {footer && (
-          <div className="px-5 py-4 border-t border-gray-100 flex items-center justify-between bg-gray-50 rounded-b-2xl">
+          <div className="flex-shrink-0 px-5 py-4 border-t border-gray-100 flex items-center justify-between bg-gray-50 rounded-b-2xl">
             {footer}
           </div>
         )}

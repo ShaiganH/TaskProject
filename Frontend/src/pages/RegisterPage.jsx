@@ -104,7 +104,7 @@ export default function RegisterPage() {
           Create account
         </h1>
         <p className="text-sm text-gray-500 mb-8">
-          Get started with TaskFlow today
+          Get started with Docket today
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
