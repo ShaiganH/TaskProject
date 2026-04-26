@@ -105,6 +105,7 @@ useEffect(() => {
           <Avatar
             initials={(u.firstName?.[0] ?? '') + (u.lastName?.[0] ?? '')}
             size="md" color="blue"
+            imageUrl={u?.profilePictureUrl}
           />
           <div>
             <p className="text-sm font-semibold text-gray-800">{u.firstName} {u.lastName}</p>
@@ -473,7 +474,7 @@ export default function AdminPage() {
                     <tr key={u.id} onClick={() => navigate(`/users/${u.id}`)}>
                       <td>
                         <div className="flex items-center gap-2">
-                          <Avatar initials={(u.firstName?.[0] ?? '') + (u.lastName?.[0] ?? '')} size="sm" color="blue" />
+                          <Avatar initials={(u.firstName?.[0] ?? '') + (u.lastName?.[0] ?? '')} size="sm" color="blue" imageUrl={u?.profilePictureUrl}/>
                           <div>
                             <p className="text-sm font-medium text-gray-800">{u.firstName} {u.lastName}</p>
                             <p className="text-xs text-gray-400">{u.email}</p>
@@ -565,6 +566,7 @@ export default function AdminPage() {
                           initials={(u.firstName?.[0] ?? '') + (u.lastName?.[0] ?? '')}
                           size="sm"
                           color={u.isBlocked ? 'red' : 'blue'}
+                          imageUrl={u?.profilePictureUrl}
                         />
                         <div>
                           <p className="text-sm font-medium text-gray-800">{u.firstName} {u.lastName}</p>
@@ -638,6 +640,7 @@ export default function AdminPage() {
                             <Avatar
                               initials={(assignee.firstName?.[0] ?? '') + (assignee.lastName?.[0] ?? '')}
                               size="sm"
+                              imageUrl={assignee?.profilePictureUrl}
                             />
                             <span className="text-xs text-gray-600 truncate">{assignee.firstName}</span>
                           </div>

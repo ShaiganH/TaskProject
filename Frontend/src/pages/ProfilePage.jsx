@@ -1,5 +1,13 @@
-import { useState, useRef,useEffect } from "react";
-import { Camera, Save, Key, Eye, EyeOff, CheckCircle2, AlertCircle } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import {
+  Camera,
+  Save,
+  Key,
+  Eye,
+  EyeOff,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useTask } from "../context/TaskContext";
 import { Avatar } from "../components/UI";
@@ -51,13 +59,18 @@ function PasswordInput({ value, onChange, placeholder, error }) {
 function PasswordStrength({ password }) {
   if (!password) return null;
   const checks = [
-    { label: "8+ chars",        pass: password.length >= 8 },
-    { label: "Uppercase",       pass: /[A-Z]/.test(password) },
-    { label: "Number",          pass: /\d/.test(password) },
-    { label: "Special char",   pass: /[^A-Za-z0-9]/.test(password) },
+    { label: "8+ chars", pass: password.length >= 8 },
+    { label: "Uppercase", pass: /[A-Z]/.test(password) },
+    { label: "Number", pass: /\d/.test(password) },
+    { label: "Special char", pass: /[^A-Za-z0-9]/.test(password) },
   ];
   const score = checks.filter((c) => c.pass).length;
-  const colors = ["bg-red-400", "bg-orange-400", "bg-yellow-400", "bg-green-400"];
+  const colors = [
+    "bg-red-400",
+    "bg-orange-400",
+    "bg-yellow-400",
+    "bg-green-400",
+  ];
   return (
     <div className="mt-2 space-y-1.5">
       <div className="flex gap-1">
@@ -78,7 +91,10 @@ function PasswordStrength({ password }) {
               c.pass ? "text-green-600" : "text-gray-400"
             }`}
           >
-            <CheckCircle2 size={9} className={c.pass ? "text-green-500" : "text-gray-300"} />
+            <CheckCircle2
+              size={9}
+              className={c.pass ? "text-green-500" : "text-gray-300"}
+            />
             {c.label}
           </span>
         ))}
@@ -94,41 +110,47 @@ export default function ProfilePage() {
   const fileInputRef = useRef(null);
 
   // ── Stats — computed from tasks array, same as original page ──────────────
-  const myTasks    = tasks.filter((t) => t.assignedToUserId === user?.id);
-  const completed  = myTasks.filter((t) => t.status === "Completed").length;
+  const myTasks = tasks.filter((t) => t.assignedToUserId === user?.id);
+  const completed = myTasks.filter((t) => t.status === "Completed").length;
   const inProgress = myTasks.filter((t) => t.status === "InProgress").length;
-  const overdue    = myTasks.filter(
-    (t) => t.dueDate && new Date(t.dueDate) < new Date() && t.status !== "Completed"
+  const overdue = myTasks.filter(
+    (t) =>
+      t.dueDate && new Date(t.dueDate) < new Date() && t.status !== "Completed",
   ).length;
 
   const stats = [
-    { label: "Assigned",    value: myTasks.length },
-    { label: "Completed",   value: completed,  color: "text-green-600" },
+    { label: "Assigned", value: myTasks.length },
+    { label: "Completed", value: completed, color: "text-green-600" },
     { label: "In progress", value: inProgress, color: "text-brand-600" },
-    { label: "Overdue",     value: overdue,    color: overdue > 0 ? "text-red-500" : "text-gray-800" },
+    {
+      label: "Overdue",
+      value: overdue,
+      color: overdue > 0 ? "text-red-500" : "text-gray-800",
+    },
   ];
 
   // ── Bio form — independent, does NOT require password ─────────────────────
-  const [bio,       setBio]       = useState(user?.bio ?? "");
+  const [bio, setBio] = useState(user?.bio ?? "");
   const [bioSaving, setBioSaving] = useState(false);
 
   // ── Password form — independent, does NOT touch bio ───────────────────────
-  const [pw,       setPw]       = useState({ current: "", next: "", confirm: "" });
+  const [pw, setPw] = useState({ current: "", next: "", confirm: "" });
   const [pwErrors, setPwErrors] = useState({});
   const [pwSaving, setPwSaving] = useState(false);
 
   // ── Avatar upload ──────────────────────────────────────────────────────────
   const [avatarUploading, setAvatarUploading] = useState(false);
-  const [avatarPreview,   setAvatarPreview]   = useState(user?.profilePictureUrl ?? null);
+  const [avatarPreview, setAvatarPreview] = useState(
+    user?.profilePictureUrl ?? null,
+  );
 
-useEffect(() => {
-  setBio(user?.bio ?? "");
-}, [user?.bio]);  // re-syncs whenever user.bio changes in context
+  useEffect(() => {
+    setBio(user?.bio ?? "");
+  }, [user?.bio]); // re-syncs whenever user.bio changes in context
 
-useEffect(() => {
-  setAvatarPreview(user?.profilePictureUrl ?? null);
-}, [user?.profilePictureUrl]);  // re-syncs whenever profilePictureUrl changes
-  
+  useEffect(() => {
+    setAvatarPreview(user?.profilePictureUrl ?? null);
+  }, [user?.profilePictureUrl]); // re-syncs whenever profilePictureUrl changes
 
   // ── Save bio ───────────────────────────────────────────────────────────────
   const handleSaveBio = async () => {
@@ -147,23 +169,29 @@ useEffect(() => {
   // ── Change password ────────────────────────────────────────────────────────
   const handleChangePassword = async () => {
     const errs = {};
-    if (!pw.current)             errs.current = "Current password is required.";
-    if (pw.next.length < 8)      errs.next    = "Minimum 8 characters.";
-    if (pw.next !== pw.confirm)  errs.confirm = "Passwords do not match.";
-    if (Object.keys(errs).length) { setPwErrors(errs); return; }
+    if (!pw.current) errs.current = "Current password is required.";
+    if (pw.next.length < 8) errs.next = "Minimum 8 characters.";
+    if (pw.next !== pw.confirm) errs.confirm = "Passwords do not match.";
+    if (Object.keys(errs).length) {
+      setPwErrors(errs);
+      return;
+    }
 
     setPwSaving(true);
     try {
       await changePassword({
-        currentPassword:    pw.current,
-        newPassword:        pw.next,
+        currentPassword: pw.current,
+        newPassword: pw.next,
         confirmNewPassword: pw.confirm,
       });
       toast.success("Password changed. Other sessions have been signed out.");
       setPw({ current: "", next: "", confirm: "" });
       setPwErrors({});
     } catch (err) {
-      const msg = err?.response?.data?.error ?? err?.response?.data ?? "Failed to change password.";
+      const msg =
+        err?.response?.data?.error ??
+        err?.response?.data ??
+        "Failed to change password.";
       toast.error(msg);
     } finally {
       setPwSaving(false);
@@ -174,7 +202,10 @@ useEffect(() => {
   const handleAvatarChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 2 * 1024 * 1024) { toast.error("Max file size is 2 MB."); return; }
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error("Max file size is 2 MB.");
+      return;
+    }
     const preview = URL.createObjectURL(file);
     setAvatarPreview(preview);
     setAvatarUploading(true);
@@ -190,7 +221,10 @@ useEffect(() => {
     }
   };
 
-  const initials = ((user?.firstName?.[0] ?? "") + (user?.lastName?.[0] ?? "")).toUpperCase() || "??";
+  const initials =
+    (
+      (user?.firstName?.[0] ?? "") + (user?.lastName?.[0] ?? "")
+    ).toUpperCase() || "??";
 
   return (
     /*
@@ -200,7 +234,6 @@ useEffect(() => {
      * No scrolling required.
      */
     <div className="page-enter h-full flex flex-col gap-4 min-h-0 overflow-y-auto lg:overflow-hidden">
-
       {/* Page title — minimal, one line */}
       <div className="flex-shrink-0">
         <h1 className="text-xl font-semibold text-gray-900">Profile</h1>
@@ -209,23 +242,18 @@ useEffect(() => {
 
       {/* Main 2-col grid — fills remaining height */}
       <div className="lg:flex-1 grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4 lg:min-h-0">
-
         {/* ── LEFT: Identity card ───────────────────────────────────────── */}
         <div className="flex flex-col gap-4 lg:min-h-0">
-
           {/* Avatar + name hero */}
           <div className="card p-5 flex flex-col items-center text-center gap-3">
             {/* Avatar */}
             <div className="relative">
-              {avatarPreview ? (
-                <img
-                  src={avatarPreview}
-                  alt="Profile"
-                  className="w-16 h-16 rounded-full object-cover ring-2 ring-gray-100"
-                />
-              ) : (
-                <Avatar initials={initials} size="xl" color="blue" />
-              )}
+              <Avatar
+                initials={initials}
+                size="xl"
+                color="blue"
+                imageUrl={avatarPreview}
+              />
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={avatarUploading}
@@ -264,8 +292,13 @@ useEffect(() => {
           {/* Task stats grid */}
           <div className="card p-4 grid grid-cols-2 gap-3">
             {stats.map((s) => (
-              <div key={s.label} className="bg-gray-50 rounded-lg p-3 text-center border border-gray-100">
-                <p className={`text-xl font-bold ${s.color ?? "text-gray-800"}`}>
+              <div
+                key={s.label}
+                className="bg-gray-50 rounded-lg p-3 text-center border border-gray-100"
+              >
+                <p
+                  className={`text-xl font-bold ${s.color ?? "text-gray-800"}`}
+                >
                   {s.value}
                 </p>
                 <p className="text-[10px] text-gray-400 mt-0.5">{s.label}</p>
@@ -275,20 +308,26 @@ useEffect(() => {
 
           {/* Name locked notice */}
           <div className="card p-4 flex gap-2.5 items-start">
-            <AlertCircle size={14} className="text-amber-500 flex-shrink-0 mt-0.5" />
+            <AlertCircle
+              size={14}
+              className="text-amber-500 flex-shrink-0 mt-0.5"
+            />
             <p className="text-xs text-gray-500 leading-relaxed">
-              First and last name can only be changed by an <span className="font-semibold text-gray-700">admin</span>. Contact your admin if you need to update them.
+              First and last name can only be changed by an{" "}
+              <span className="font-semibold text-gray-700">admin</span>.
+              Contact your admin if you need to update them.
             </p>
           </div>
         </div>
 
         {/* ── RIGHT: Two stacked form cards ────────────────────────────── */}
         <div className="flex flex-col gap-4 lg:min-h-0">
-
           {/* Personal info + bio */}
           <div className="card p-5">
             <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
-              <h2 className="text-sm font-semibold text-gray-700">Personal information</h2>
+              <h2 className="text-sm font-semibold text-gray-700">
+                Personal information
+              </h2>
             </div>
 
             <div className="space-y-3">
@@ -332,7 +371,9 @@ useEffect(() => {
                   maxLength={300}
                 />
                 <div className="flex items-center justify-between mt-1.5">
-                  <span className="text-[10px] text-gray-300">{bio.length}/300</span>
+                  <span className="text-[10px] text-gray-300">
+                    {bio.length}/300
+                  </span>
                   <button
                     className="btn-primary py-1.5 text-xs"
                     onClick={handleSaveBio}
@@ -350,14 +391,19 @@ useEffect(() => {
           <div className="card p-5">
             <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-50 flex-shrink-0">
               <Key size={14} className="text-gray-400" />
-              <h2 className="text-sm font-semibold text-gray-700">Change password</h2>
+              <h2 className="text-sm font-semibold text-gray-700">
+                Change password
+              </h2>
             </div>
 
             <div className="space-y-3">
               <Field label="Current password" error={pwErrors.current}>
                 <PasswordInput
                   value={pw.current}
-                  onChange={(e) => { setPw((p) => ({ ...p, current: e.target.value })); setPwErrors((e2) => ({ ...e2, current: "" })); }}
+                  onChange={(e) => {
+                    setPw((p) => ({ ...p, current: e.target.value }));
+                    setPwErrors((e2) => ({ ...e2, current: "" }));
+                  }}
                   placeholder="••••••••"
                   error={pwErrors.current}
                 />
@@ -367,7 +413,10 @@ useEffect(() => {
                 <Field label="New password" error={pwErrors.next}>
                   <PasswordInput
                     value={pw.next}
-                    onChange={(e) => { setPw((p) => ({ ...p, next: e.target.value })); setPwErrors((e2) => ({ ...e2, next: "" })); }}
+                    onChange={(e) => {
+                      setPw((p) => ({ ...p, next: e.target.value }));
+                      setPwErrors((e2) => ({ ...e2, next: "" }));
+                    }}
                     placeholder="Min 8 characters"
                     error={pwErrors.next}
                   />
@@ -376,14 +425,21 @@ useEffect(() => {
                 <Field label="Confirm new password" error={pwErrors.confirm}>
                   <PasswordInput
                     value={pw.confirm}
-                    onChange={(e) => { setPw((p) => ({ ...p, confirm: e.target.value })); setPwErrors((e2) => ({ ...e2, confirm: "" })); }}
+                    onChange={(e) => {
+                      setPw((p) => ({ ...p, confirm: e.target.value }));
+                      setPwErrors((e2) => ({ ...e2, confirm: "" }));
+                    }}
                     placeholder="Repeat password"
                     error={pwErrors.confirm}
                   />
                   {pw.confirm && pw.next && (
-                    <p className={`text-[10px] mt-1.5 flex items-center gap-1 ${pw.confirm === pw.next ? "text-green-600" : "text-red-400"}`}>
+                    <p
+                      className={`text-[10px] mt-1.5 flex items-center gap-1 ${pw.confirm === pw.next ? "text-green-600" : "text-red-400"}`}
+                    >
                       <CheckCircle2 size={9} />
-                      {pw.confirm === pw.next ? "Passwords match" : "Passwords don't match"}
+                      {pw.confirm === pw.next
+                        ? "Passwords match"
+                        : "Passwords don't match"}
                     </p>
                   )}
                 </Field>

@@ -1,7 +1,7 @@
 import { X } from 'lucide-react'
 
 // ─── Avatar ───────────────────────────────────────────────────────────────
-export function Avatar({ initials, size = 'md', color = 'blue' }) {
+export function Avatar({ initials, size = 'md', color = 'blue',imageUrl, className = "" }) {
   const sizes = { sm: 'w-7 h-7 text-xs', md: 'w-9 h-9 text-sm', lg: 'w-12 h-12 text-base', xl: 'w-16 h-16 text-lg' }
   const colors = {
     blue:   'bg-brand-50 text-brand-800',
@@ -9,6 +9,15 @@ export function Avatar({ initials, size = 'md', color = 'blue' }) {
     purple: 'bg-purple-50 text-purple-800',
     amber:  'bg-amber-50 text-amber-800',
     red:    'bg-red-50 text-red-700',
+  }
+  if (imageUrl) {
+    return (
+      <img
+        src={imageUrl}
+        alt={initials}
+        className={`${sizes[size]} rounded-full object-cover flex-shrink-0 ${className}`}
+      />
+    );
   }
   return (
     <div className={`${sizes[size]} ${colors[color]} rounded-full flex items-center justify-center font-semibold flex-shrink-0`}>
