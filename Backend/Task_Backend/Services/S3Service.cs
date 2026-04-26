@@ -32,8 +32,7 @@ public class S3Service : IS3Service
             InputStream  = stream,
             Key          = key,
             BucketName   = _bucketName,
-            ContentType  = file.ContentType,
-            CannedACL    = S3CannedACL.PublicRead,  // so URL is publicly accessible
+            ContentType  = file.ContentType
         };
 
         var transferUtility = new TransferUtility(_s3Client);
