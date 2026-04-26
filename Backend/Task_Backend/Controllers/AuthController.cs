@@ -18,23 +18,23 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
-    
+
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] Registerrequest request)
     {
-            var result =await _authService.RegisterAsync(request);
-            return Ok(result); 
-        
-    }   
+        var result = await _authService.RegisterAsync(request);
+        return Ok(result);
+
+    }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] Loginrequest request)
     {
-            var (response,rawRefreshToken) = await _authService.LoginAsync(request);
-            SetRefreshTokenCookie(rawRefreshToken);
-            return Ok(response);
-        
+        var (response, rawRefreshToken) = await _authService.LoginAsync(request);
+        SetRefreshTokenCookie(rawRefreshToken);
+        return Ok(response);
+
     }
 
     [HttpPost("refresh")]
@@ -42,14 +42,14 @@ public class AuthController : ControllerBase
     {
         // Read refresh token from HttpOnly cookie — React never touches this
         var refreshToken = Request.Cookies[RefreshTokenCookieName];
-        if(string.IsNullOrEmpty(refreshToken))
+        if (string.IsNullOrEmpty(refreshToken))
         {
             return Unauthorized("No refresh token");
         }
 
         try
         {
-            var (response,newRawrefreshToken) = await _authService.RefreshAsync(refreshToken);
+            var (response, newRawrefreshToken) = await _authService.RefreshAsync(refreshToken);
             SetRefreshTokenCookie(newRawrefreshToken);
             return Ok(response);
         }
@@ -65,8 +65,8 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> logout()
     {
         var refreshToken = Request.Cookies[RefreshTokenCookieName];
-        if(refreshToken == null) return BadRequest("RefreshToken not set in cookie");
-        if(!string.IsNullOrEmpty(refreshToken))
+        if (refreshToken == null) return BadRequest("RefreshToken not set in cookie");
+        if (!string.IsNullOrEmpty(refreshToken))
         {
             await _authService.LogoutAsync(refreshToken);
         }
@@ -100,25 +100,23 @@ public class AuthController : ControllerBase
     {
         var options = new CookieOptions
         {
-            HttpOnly = true, // JS cannot read this — XSS protection
-            Secure = true, //Https only
-            SameSite = SameSiteMode.Strict, // CSRF Protection
+            HttpOnly = true,
+            Secure = false,           // ← HTTP only, no HTTPS yet
+            SameSite = SameSiteMode.Lax,  // ← Lax works for same-site requests
             Expires = DateTime.UtcNow.AddDays(7),
-            Path = "/api/auth" // Cookie only sent to /auth/* routes
-                        // NOT sent to /api/* — minimizes exposure
+            Path = "/api/auth"
         };
-        Response.Cookies.Append(RefreshTokenCookieName,token,options);
+        Response.Cookies.Append(RefreshTokenCookieName, token, options);
     }
 
     public void DeleteRefreshTokenCookie()
     {
         Response.Cookies.Delete(RefreshTokenCookieName, new CookieOptions
         {
-            HttpOnly = true, // JS cannot read this — XSS protection
-            Secure = true, //Https only
-            SameSite = SameSiteMode.Strict, // CSRF Protection
-            Path = "/api/auth" // Cookie only sent to /auth/* routes
-                        // NOT sent to /api/* — minimizes exposure
+            HttpOnly = true,
+            Secure = false,
+            SameSite = SameSiteMode.Lax,
+            Path = "/api/auth"
         });
     }
 }
