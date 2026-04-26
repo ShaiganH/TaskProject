@@ -11,7 +11,7 @@ namespace Project.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/[controller]")]
+[Route("api/users")]
 public class UserController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
@@ -29,7 +29,7 @@ public class UserController : ControllerBase
     // GET /api/users  — lightweight list for dropdowns & task panels
     // Returns only non-admin users. Role is NOT exposed.
     // ─────────────────────────────────────────────────────────────
-    [HttpGet("api/users")]
+    [HttpGet]
     public async Task<IActionResult> GetAll()
     {
         // Fetch all users
@@ -77,7 +77,7 @@ public class UserController : ControllerBase
     // Admins CAN view anyone (needed for admin panel).
     // Role is NOT returned to non-admin callers.
     // ─────────────────────────────────────────────────────────────
-    [HttpGet("api/users/{id}/profile")]
+    [HttpGet("{id}/profile")]
     public async Task<IActionResult> GetProfile(string id)
     {
         var currentIsAdmin = User.IsInRole("Admin");
