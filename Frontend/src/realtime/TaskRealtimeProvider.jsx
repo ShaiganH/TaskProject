@@ -36,7 +36,7 @@ export default function TaskRealtimeProvider({ children }) {
     if (connectionRef.current) return; // already connected
 
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl(`${BASE_URL}/hubs/tasks`, {
+      .withUrl(`${BASE_URL}api/hubs/tasks`, {
         accessTokenFactory: () => cbRef.current._token ?? token,
       })
       .withAutomaticReconnect([0, 2000, 5000, 10000, 30000])
