@@ -102,8 +102,8 @@ public class AuthController : ControllerBase
         var options = new CookieOptions
         {
             HttpOnly = true,
-            Secure = false,           // ← HTTP only, no HTTPS yet
-            SameSite = SameSiteMode.Lax,  // ← Lax works for same-site requests
+            Secure = true,           // ← HTTP only, no HTTPS yet
+            SameSite = SameSiteMode.Strict,  // ← Lax works for same-site requests
             Expires = DateTime.UtcNow.AddDays(7),
             Path = "/api/auth"
         };
@@ -115,8 +115,8 @@ public class AuthController : ControllerBase
         Response.Cookies.Delete(RefreshTokenCookieName, new CookieOptions
         {
             HttpOnly = true,
-            Secure = false,
-            SameSite = SameSiteMode.Lax,
+            Secure = true,
+            SameSite = SameSiteMode.Strict,
             Path = "/api/auth"
         });
     }
