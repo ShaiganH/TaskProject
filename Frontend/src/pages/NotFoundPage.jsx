@@ -33,7 +33,7 @@ export default function NotFoundPage() {
         </div>
 
         <div className="mt-12 text-xs text-gray-300">
-          Task<span className="text-brand-300">Flow</span>
+          Dock<span className="text-brand-300">et</span>
         </div>
       </div>
     </div>

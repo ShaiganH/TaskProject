@@ -96,7 +96,7 @@ export default function RegisterPage() {
             to="/login"
             className="text-xl font-semibold text-gray-900 tracking-tight"
           >
-            Task<span className="text-brand-400">Flow</span>
+            Dock<span className="text-brand-400">et</span>
           </Link>
         </div>
 

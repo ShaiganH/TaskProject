@@ -52,7 +52,7 @@ export default function LoginPage() {
       <div className="hidden lg:flex lg:w-1/2 bg-brand-900 flex-col justify-between p-12">
         <div>
           <span className="text-xl font-semibold text-white tracking-tight">
-            Task<span className="text-brand-400">Flow</span>
+            Dock<span className="text-brand-400">et</span>
           </span>
         </div>
         <div>
@@ -65,8 +65,8 @@ export default function LoginPage() {
               SA
             </div>
             <div>
-              <p className="text-sm font-medium text-white">Sarah Mitchell</p>
-              <p className="text-xs text-white/50">Engineering Manager</p>
+              <p className="text-sm font-medium text-white">Shaigan Haider</p>
+              <p className="text-xs text-white/50">DevOps Engineer and Full Stack Developer</p>
             </div>
           </div>
         </div>
@@ -89,7 +89,7 @@ export default function LoginPage() {
         <div className="w-full max-w-sm">
           <div className="lg:hidden mb-8">
             <span className="text-xl font-semibold text-gray-900 tracking-tight">
-              Task<span className="text-brand-400">Flow</span>
+              Dock<span className="text-brand-400">et</span>
             </span>
           </div>
 
