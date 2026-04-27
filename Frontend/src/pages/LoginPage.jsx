@@ -57,12 +57,12 @@ export default function LoginPage() {
         </div>
         <div>
           <blockquote className="text-2xl font-light text-white/80 leading-relaxed mb-8">
-            "Clarity in tasks, clarity in progress. Pinnacle keeps the whole
+            "Clarity in tasks, clarity in progress. Docket keeps the whole
             team aligned without the noise."
           </blockquote>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-brand-400 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-              SA
+              SH
             </div>
             <div>
               <p className="text-sm font-medium text-white">Shaigan Haider</p>
