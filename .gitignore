@@ -20,3 +20,7 @@ Backend/Task_Backend/*.suo
 # --- OS Specific ---
 .DS_Store
 Thumbs.db
+
+.git
+.github
+.vscode
