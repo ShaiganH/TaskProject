@@ -62,7 +62,7 @@ Install:
 
 ```bash
 git clone https://github.com/ShaiganH/TaskProject.git
-cd taskapp/Backend/Task_Backend
+cd TaskProject/Backend/Task_Backend
 ```
 
 ---
