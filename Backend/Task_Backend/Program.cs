@@ -4,6 +4,7 @@ using Project.Service;
 using Project.Validation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Project.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,8 @@ builder.Services.AddSignalR()
     });
 builder.Services.ConfigureCORS(builder.Configuration);
 builder.Services.ConfigureSwagger();
+builder.Services.Configure<AdminSettings>(
+    builder.Configuration.GetSection("Admin"));
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -40,10 +43,7 @@ builder.Services.AddControllers()
         );
     });
 
-if (builder.Environment.IsDevelopment())
-{
-    builder.Configuration.AddUserSecrets<Program>();
-}
+
 builder.Configuration.AddEnvironmentVariables();
 
 var app = builder.Build();

@@ -110,7 +110,7 @@ public class AuthController : ControllerBase
         Response.Cookies.Append(RefreshTokenCookieName, token, options);
     }
 
-    public void DeleteRefreshTokenCookie()
+    private void DeleteRefreshTokenCookie()
     {
         Response.Cookies.Delete(RefreshTokenCookieName, new CookieOptions
         {

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Project.Model;
 namespace Project.Service;
+using Microsoft.Extensions.Options;
 
 public static class DataSeeding
 {
@@ -17,26 +18,29 @@ public static class DataSeeding
             }
         } 
     }
-    
+public static async Task SeedAdminUserAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
 
-    public static async Task SeedAdminUserAsync(WebApplication app)
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    var adminSettings = scope.ServiceProvider.GetRequiredService<IOptions<AdminSettings>>().Value;
+
+    var existingUser = await userManager.FindByEmailAsync(adminSettings.Email);
+
+    if (existingUser == null)
     {
-        using var scope = app.Services.CreateScope();
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
-
-        string adminEmail = "admin@bookhive.com";
-        string adminPassword = "Veriton52002!";
-
-        if (await userManager.FindByEmailAsync(adminEmail) == null)
+        var adminUser = new User
         {
-            var adminUser = new User
-            {
-                Email = adminEmail,
-                UserName = adminEmail,
-                EmailConfirmed = true
-            };
-            await userManager.CreateAsync(adminUser, adminPassword);
-            await userManager.AddToRoleAsync(adminUser, "Admin");
-        }
+            Email = adminSettings.Email,
+            UserName = adminSettings.Email,
+            EmailConfirmed = true,
+            FirstName = adminSettings.FirstName,
+            LastName = adminSettings.LastName,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        await userManager.CreateAsync(adminUser, adminSettings.Password);
+        await userManager.AddToRoleAsync(adminUser, "Admin");
     }
+}
 }
