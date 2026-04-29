@@ -3,6 +3,7 @@
 A **deployment-focused full stack application** designed to reflect how modern systems are built, containerized, and automatically deployed using CI/CD pipelines.
 
 This project demonstrates **real-world DevOps engineering practices**, not just application development.
+Live Link: https://www.docket.work.gd
 
 ---
 
