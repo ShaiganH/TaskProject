@@ -28,8 +28,8 @@ This project goes beyond CRUD applications and includes:
 ### Task Detail
 ![TaskDetail](assets/3.png)
 
-### Import Export
-![Import/Export](assets/4.png)
+### Realtime Logs
+![Real-time Logs](assets/4.png)
 
 ### CI/CD Pipeline
 ![Pipeline](assets/pipeline.png)
