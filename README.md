@@ -20,6 +20,20 @@ This project goes beyond CRUD applications and includes:
 
 ---
 
+##  Screenshots
+
+### Dashboard
+![Dashboard](assets/2.png)
+
+### Task Detail
+![TaskDetail](assets/3.png)
+
+### Import Export
+![Import/Export](assets/4.png)
+
+### CI/CD Pipeline
+![Pipeline](assets/pipeline.png)
+
 ##  Tech Stack
 
 ### Frontend
